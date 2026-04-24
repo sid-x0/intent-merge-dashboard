@@ -2,6 +2,15 @@ import { useEffect, useState, useRef } from 'react'
 import { supabase } from '../supabase'
 import ActivityTable from '../components/ActivityTable'
 
+const LogoIcon = () => (
+  <div className="logo-icon" style={{ width: 30, height: 30 }}>
+    <svg viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" style={{ width: 15, height: 15 }}>
+      <polyline points="4 17 10 11 4 5" />
+      <line x1="12" y1="19" x2="20" y2="19" />
+    </svg>
+  </div>
+)
+
 export default function DashboardPage({ session, membership, onLeave }) {
   const [conflicts, setConflicts] = useState([])
   const [newIds, setNewIds] = useState(new Set())
@@ -60,32 +69,30 @@ export default function DashboardPage({ session, membership, onLeave }) {
 
   return (
     <>
-      <div className="mesh-bg"><div className="mesh-orb-mid" /></div>
+      <div className="ambient-bg" />
       <div className="app-layout">
 
-        {/* Floating Pill Navbar */}
         <nav className="navbar">
           <div className="navbar-brand">
-            <div className="brand-icon" style={{ width: 30, height: 30, fontSize: '0.85rem' }}>IM</div>
-            <span style={{ fontWeight: 700, letterSpacing: '-0.01em' }}>Intent Merge</span>
+            <LogoIcon />
+            <span className="logo-name">Intent Merge</span>
           </div>
           <div className="navbar-right">
-            <div className="navbar-org">
+            <div className="navbar-org" style={{ cursor: 'pointer' }} onClick={() => { navigator.clipboard.writeText(orgId); alert('Org ID copied to clipboard: ' + orgId) }} title="Click to copy Org ID">
               <span className="org-dot" />
               {orgName}
             </div>
             <span className="navbar-email">{email}</span>
             <button id="leave-org-btn" className="btn btn-ghost" onClick={handleLeaveOrg}>Leave</button>
-            <button id="sign-out-btn" className="btn btn-outline" onClick={handleSignOut} style={{ fontSize: '0.8rem', padding: '7px 14px' }}>
+            <button id="sign-out-btn" className="btn btn-outline" onClick={handleSignOut} style={{ padding: '6px 14px', fontSize: '0.8rem' }}>
               Sign Out
             </button>
           </div>
         </nav>
 
-        {/* Content */}
         <main className="dash-content">
           <div className="dash-header fade-in">
-            <h1>Developer Activity <span className="grad-text">Log</span></h1>
+            <h1>Activity Log</h1>
             <p className="dash-meta">
               Real-time conflict &amp; commit tracking for <strong style={{ color: 'var(--text-secondary)' }}>{orgName}</strong>
             </p>
@@ -93,7 +100,7 @@ export default function DashboardPage({ session, membership, onLeave }) {
 
           {loading ? (
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', color: 'var(--text-muted)', padding: '40px 0', fontSize: '0.85rem' }}>
-              <div className="spinner" style={{ borderTopColor: 'var(--cyan)', borderColor: 'rgba(99,230,255,0.15)', width: 22, height: 22 }} />
+              <div className="spinner" style={{ borderTopColor: '#fff', borderColor: 'rgba(255,255,255,0.08)', width: 20, height: 20 }} />
               Loading activity…
             </div>
           ) : (

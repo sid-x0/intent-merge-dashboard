@@ -6,39 +6,38 @@ function getInitials(name) {
   return name.split(/[\s@._-]+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('')
 }
 
-const GRADIENTS = [
-  'linear-gradient(135deg,#63e6ff,#a855f7)',
-  'linear-gradient(135deg,#22d3a5,#63e6ff)',
-  'linear-gradient(135deg,#f59e0b,#ef4444)',
-  'linear-gradient(135deg,#a855f7,#ec4899)',
-  'linear-gradient(135deg,#22d3a5,#a855f7)',
-  'linear-gradient(135deg,#63e6ff,#22d3a5)',
-]
-function avatarGrad(name) {
-  let h = 0; for (let c of name) h = (h * 31 + c.charCodeAt(0)) % GRADIENTS.length
-  return GRADIENTS[h]
+const COLORS = ['#3b82f6','#8b5cf6','#06b6d4','#10b981','#f59e0b','#ef4444','#ec4899','#14b8a6']
+function avatarColor(name) {
+  let h = 0; for (let c of name) h = (h * 31 + c.charCodeAt(0)) % COLORS.length
+  return COLORS[h]
 }
 
 export default function ActivityTable({ items, newIds }) {
   if (!items || items.length === 0) {
     return (
-      <div className="glass-panel table-panel">
+      <div className="panel">
         <div className="panel-header">
-          <span className="panel-title">Activity Log</span>
+          <span className="panel-title">
+            <span className="live-dot" />
+            Activity Log
+          </span>
         </div>
         <div className="table-empty">
-          <div style={{ fontSize: '2rem', marginBottom: 12 }}>📋</div>
-          No events recorded yet
+          No events recorded yet.<br />
+          <span style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>Activity will appear here in real time.</span>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="glass-panel table-panel">
+    <div className="panel">
       <div className="panel-header">
-        <span className="panel-title">Activity Log</span>
-        <span className="badge badge-success">{items.length} events</span>
+        <span className="panel-title">
+          <span className="live-dot" />
+          Activity Log
+        </span>
+        <span className="badge badge-count">{items.length} events</span>
       </div>
 
       <div className="table-scroll">
@@ -56,7 +55,7 @@ export default function ActivityTable({ items, newIds }) {
               <tr key={item.id ?? i} className={newIds?.has(item.id) ? 'row-new' : ''}>
                 <td>
                   <div className="user-cell">
-                    <div className="avatar avatar-sm" style={{ background: avatarGrad(item.author) }}>
+                    <div className="avatar avatar-sm" style={{ background: avatarColor(item.author) }}>
                       {getInitials(item.author)}
                     </div>
                     <span className="user-name">{item.author}</span>

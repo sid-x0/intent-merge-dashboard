@@ -1,6 +1,15 @@
 import { useState } from 'react'
 import { supabase } from '../supabase'
 
+const LogoIcon = () => (
+  <div className="logo-icon">
+    <svg viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="4 17 10 11 4 5" />
+      <line x1="12" y1="19" x2="20" y2="19" />
+    </svg>
+  </div>
+)
+
 export default function OrgPage({ userId, onJoined }) {
   const [tab, setTab] = useState('create')
   const [orgName, setOrgName] = useState('')
@@ -62,31 +71,27 @@ export default function OrgPage({ userId, onJoined }) {
 
   return (
     <>
-      <div className="mesh-bg"><div className="mesh-orb-mid" /></div>
+      <div className="ambient-bg" />
       <div className="page-center">
         <div className="org-box animate-in">
 
-          {/* Brand */}
           <div className="auth-brand">
-            <div className="brand-icon">IM</div>
-            <span className="auth-brand-name grad-text">Intent Merge</span>
+            <LogoIcon />
+            <span className="logo-name">Intent Merge</span>
           </div>
 
-          {/* Header */}
-          <div className="org-header">
-            <h1>Set up your workspace</h1>
-            <p>Create a new organization or join an existing one to start tracking activity</p>
-          </div>
+          <div className="card">
+            <div className="org-header">
+              <h1>Set up your workspace</h1>
+              <p>Create a new organization or join an existing one</p>
+            </div>
 
-          {/* Card */}
-          <div className="glass-card">
-            {/* Tabs */}
             <div className="org-tabs">
               <button id="tab-create" className={`org-tab ${tab === 'create' ? 'active' : ''}`} onClick={() => switchTab('create')}>
-                Create Organization
+                Create
               </button>
               <button id="tab-join" className={`org-tab ${tab === 'join' ? 'active' : ''}`} onClick={() => switchTab('join')}>
-                Join Organization
+                Join
               </button>
             </div>
 

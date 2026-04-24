@@ -1,6 +1,15 @@
 import { useState } from 'react'
 import { supabase } from '../supabase'
 
+const LogoIcon = () => (
+  <div className="logo-icon">
+    <svg viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="4 17 10 11 4 5" />
+      <line x1="12" y1="19" x2="20" y2="19" />
+    </svg>
+  </div>
+)
+
 export default function AuthPage() {
   const [mode, setMode] = useState('login')
   const [email, setEmail] = useState('')
@@ -20,7 +29,7 @@ export default function AuthPage() {
       const { error } = await supabase.auth.signUp({ email, password })
       if (error) {
         if (error.message.toLowerCase().includes('rate limit') || error.message.toLowerCase().includes('email rate')) {
-          setError('Email rate limit reached. In Supabase → Authentication → Settings, disable "Enable email confirmations" and try again.')
+          setError('Email rate limit reached. In Supabase → Auth → Settings, disable "Enable email confirmations" and try again.')
         } else {
           setError(error.message)
         }
@@ -38,30 +47,27 @@ export default function AuthPage() {
 
   return (
     <>
-      <div className="mesh-bg"><div className="mesh-orb-mid" /></div>
+      <div className="ambient-bg" />
       <div className="page-center">
         <div className="auth-box animate-in">
 
-          {/* Brand */}
           <div className="auth-brand">
-            <div className="brand-icon">IM</div>
-            <span className="auth-brand-name grad-text">Intent Merge</span>
+            <LogoIcon />
+            <span className="logo-name">Intent Merge</span>
           </div>
 
-          {/* Heading */}
-          <div className="auth-heading">
-            <h2>{mode === 'login' ? 'Welcome back' : 'Create your account'}</h2>
-            <p>{mode === 'login' ? 'Sign in to your team workspace' : 'Start tracking developer activity'}</p>
-          </div>
+          <div className="card">
+            <div className="auth-heading">
+              <h2>{mode === 'login' ? 'Welcome back' : 'Create your account'}</h2>
+              <p>{mode === 'login' ? 'Sign in to your workspace' : 'Start tracking developer activity'}</p>
+            </div>
 
-          {/* Card */}
-          <div className="glass-card">
             {error   && <div className="alert alert-error">{error}</div>}
             {success && <div className="alert alert-success">{success}</div>}
 
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label htmlFor="auth-email">Email address</label>
+                <label htmlFor="auth-email">Email</label>
                 <input
                   id="auth-email"
                   type="email"
@@ -93,14 +99,13 @@ export default function AuthPage() {
                 }
               </button>
             </form>
-          </div>
 
-          {/* Toggle */}
-          <div className="auth-toggle">
-            {mode === 'login'
-              ? <>No account? <button id="switch-to-signup" onClick={() => switchMode('signup')}>Sign up for free</button></>
-              : <>Already have an account? <button id="switch-to-login" onClick={() => switchMode('login')}>Sign in</button></>
-            }
+            <div className="auth-toggle">
+              {mode === 'login'
+                ? <>Don't have an account? <button id="switch-to-signup" onClick={() => switchMode('signup')}>Create one</button></>
+                : <>Already have an account? <button id="switch-to-login" onClick={() => switchMode('login')}>Sign in</button></>
+              }
+            </div>
           </div>
 
         </div>
