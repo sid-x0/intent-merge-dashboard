@@ -50,15 +50,17 @@ export default function ActivityFeed({ items }) {
               {getInitials(item.author)}
             </div>
             <div className="feed-body">
-              <div className="feed-text">
-                <span className="feed-author">@{item.author}</span>
-                {' '}modified{' '}
-                <span className="feed-file">{item.file}</span>
-              </div>
-              <div className="feed-meta">
-                <span className="feed-time">{formatTime(item.created_at)}</span>
-                <span className="feed-commit">{item.commit_hash.slice(0, 7)}</span>
-              </div>
+                <div className="feed-text">
+                  <span className="feed-author">@{item.author}</span>
+                  {' '}
+                  {item.event_type === 'prevented' ? '🛡️ prevented conflict in' : '✅ resolved conflict in'}
+                  {' '}
+                  <span className="feed-file">{item.file?.split('/').pop() ?? item.file}</span>
+                </div>
+                <div className="feed-meta">
+                  <span className="feed-time">{formatTime(item.created_at)}</span>
+                  {item.commit_hash ? <span className="feed-commit">{item.commit_hash.slice(0, 7)}</span> : null}
+                </div>
             </div>
           </div>
         ))}

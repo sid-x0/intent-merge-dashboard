@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { supabase } from '../supabase'
 import ActivityTable from '../components/ActivityTable'
+import ActivityFeed from '../components/ActivityFeed'
 
 const LogoIcon = () => (
   <div className="logo-icon" style={{ width: 30, height: 30 }}>
@@ -98,14 +99,31 @@ export default function DashboardPage({ session, membership, onLeave }) {
             </p>
           </div>
 
+          {/* ── Stat Cards ── */}
+          <div className="stats-row fade-in">
+            <div className="stat-card">
+              <span className="stat-value">{conflicts.length}</span>
+              <span className="stat-label">Total Events</span>
+            </div>
+            <div className="stat-card stat-prevented">
+              <span className="stat-value">{conflicts.filter(c => c.event_type === 'prevented').length}</span>
+              <span className="stat-label">🛡️ Prevented</span>
+            </div>
+            <div className="stat-card stat-resolved">
+              <span className="stat-value">{conflicts.filter(c => c.event_type === 'resolved').length}</span>
+              <span className="stat-label">✅ Resolved</span>
+            </div>
+          </div>
+
           {loading ? (
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', color: 'var(--text-muted)', padding: '40px 0', fontSize: '0.85rem' }}>
               <div className="spinner" style={{ borderTopColor: '#fff', borderColor: 'rgba(255,255,255,0.08)', width: 20, height: 20 }} />
               Loading activity…
             </div>
           ) : (
-            <div className="fade-in">
+            <div className="dash-body fade-in">
               <ActivityTable items={conflicts} newIds={newIds} />
+              <ActivityFeed items={conflicts.slice(0, 20)} />
             </div>
           )}
         </main>

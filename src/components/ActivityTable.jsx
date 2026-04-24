@@ -46,7 +46,8 @@ export default function ActivityTable({ items, newIds }) {
             <tr>
               <th>User</th>
               <th>File</th>
-              <th>Commit</th>
+              <th>Type</th>
+              <th>Source</th>
               <th>Time</th>
             </tr>
           </thead>
@@ -62,7 +63,12 @@ export default function ActivityTable({ items, newIds }) {
                   </div>
                 </td>
                 <td><span className="file-cell" title={item.file}>{item.file}</span></td>
-                <td><span className="commit-pill">{item.commit_hash.slice(0, 7)}</span></td>
+                <td>
+                  <span className={`event-type-badge event-${item.event_type || 'resolved'}`}>
+                    {item.event_type === 'prevented' ? '🛡️ Prevented' : '✅ Resolved'}
+                  </span>
+                </td>
+                <td><span className="source-pill">{(item.source || 'vscode').replace('github-pr-', 'gh-')}</span></td>
                 <td><span className="time-cell">{formatTime(item.created_at)}</span></td>
               </tr>
             ))}
