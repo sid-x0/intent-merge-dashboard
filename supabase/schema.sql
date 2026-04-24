@@ -1,5 +1,5 @@
 -- =============================================
--- Athernex Dashboard — Supabase Schema
+-- Intent Merge Dashboard — Supabase Schema
 -- Run this in your Supabase SQL Editor
 -- =============================================
 
@@ -58,6 +58,11 @@ create policy "Users can create own memberships"
   on memberships for insert
   to authenticated
   with check (auth.uid() = user_id);
+
+create policy "Users can delete own memberships"
+  on memberships for delete
+  to authenticated
+  using (auth.uid() = user_id);
 
 -- Conflicts: users can read conflicts for their org
 create policy "Users can read conflicts for their org"

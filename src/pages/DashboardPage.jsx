@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
 import { supabase } from '../supabase'
-import ActivityFeed from '../components/ActivityFeed'
 import ActivityTable from '../components/ActivityTable'
 
 export default function DashboardPage({ session, membership, onLeave }) {
@@ -67,8 +66,8 @@ export default function DashboardPage({ session, membership, onLeave }) {
         {/* Floating Pill Navbar */}
         <nav className="navbar">
           <div className="navbar-brand">
-            <div className="brand-icon" style={{ width: 30, height: 30, fontSize: '0.85rem' }}>A</div>
-            <span style={{ fontWeight: 700, letterSpacing: '-0.01em' }}>Athernex</span>
+            <div className="brand-icon" style={{ width: 30, height: 30, fontSize: '0.85rem' }}>IM</div>
+            <span style={{ fontWeight: 700, letterSpacing: '-0.01em' }}>Intent Merge</span>
           </div>
           <div className="navbar-right">
             <div className="navbar-org">
@@ -86,7 +85,7 @@ export default function DashboardPage({ session, membership, onLeave }) {
         {/* Content */}
         <main className="dash-content">
           <div className="dash-header fade-in">
-            <h1>Developer Activity <span className="grad-text">Feed</span></h1>
+            <h1>Developer Activity <span className="grad-text">Log</span></h1>
             <p className="dash-meta">
               Real-time conflict &amp; commit tracking for <strong style={{ color: 'var(--text-secondary)' }}>{orgName}</strong>
             </p>
@@ -98,8 +97,7 @@ export default function DashboardPage({ session, membership, onLeave }) {
               Loading activity…
             </div>
           ) : (
-            <div className="dash-grid fade-in">
-              <ActivityFeed items={conflicts} />
+            <div className="fade-in">
               <ActivityTable items={conflicts} newIds={newIds} />
             </div>
           )}

@@ -44,8 +44,8 @@ export default function AuthPage() {
 
           {/* Brand */}
           <div className="auth-brand">
-            <div className="brand-icon">A</div>
-            <span className="auth-brand-name grad-text">Athernex</span>
+            <div className="brand-icon">IM</div>
+            <span className="auth-brand-name grad-text">Intent Merge</span>
           </div>
 
           {/* Heading */}

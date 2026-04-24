@@ -44,7 +44,7 @@ function App() {
     return (
       <div className="loading-screen">
         <div className="spinner" />
-        <span>Loading Athernex…</span>
+        <span>Loading Intent Merge…</span>
       </div>
     )
   }
