@@ -53,6 +53,15 @@ export default function DashboardPage({ session, membership, onLeave }) {
           }, 2200)
         }
       )
+      .on('postgres_changes',
+        { event: 'DELETE', schema: 'public', table: 'conflicts' },
+        (payload) => {
+          const deletedId = payload.old?.id
+          if (deletedId) {
+            setConflicts(prev => prev.filter(c => c.id !== deletedId))
+          }
+        }
+      )
       .subscribe()
     channelRef.current = channel
   }
